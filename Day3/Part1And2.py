@@ -19,7 +19,7 @@ def drawWire(Wire):
       else:
          assert(direction == "L")
          X -= distance
-      Points.append( (X,Y) )
+      Points.append( (X,Y,distance) )
    return Points
 
 # This is a simple algorithm to determine instersections
@@ -52,7 +52,8 @@ Wire2 = f.readline().split(",")
 Wire1Points = drawWire(Wire1)
 Wire2Points = drawWire(Wire2)
 
-distancesFromCenter = list()
+manhattenDistancesFromCenter = list()
+wireDistancesFromCenter = list()
 
 # Go through each pair of points in order they were drawn.
 # Save all the manhatten distances from (0,0)
@@ -60,6 +61,11 @@ for i in range(len(Wire1Points)-1):
    for j in range(len(Wire2Points)-1):
       doIntersect = findIntersection(Wire1Points[i],Wire1Points[i+1],Wire2Points[j],Wire2Points[j+1])
       if (doIntersect):
-         distancesFromCenter.append(sum(doIntersect))
+         manhattenDistancesFromCenter.append(sum(doIntersect))
+         # The WireXPoints keep track of distance from last point in the [2] index. Sum all those indexes up to this point and add the distance to the instersect point
+         wire1distance = sum(x[2] for x in Wire1Points[0:i+1]) + max(abs(doIntersect[0]-Wire1Points[i][0]),abs(doIntersect[1]-Wire1Points[i][1]))
+         wire2distance = sum(x[2] for x in Wire2Points[0:j+1]) + max(abs(doIntersect[0]-Wire2Points[j][0]),abs(doIntersect[1]-Wire2Points[j][1]))
+         wireDistancesFromCenter.append(wire1distance+wire2distance)
 # Print the smallest distance
-print(min(distancesFromCenter))
+print("Part1:{}".format(min(manhattenDistancesFromCenter)))
+print("Part2:{}".format(min(wireDistancesFromCenter)))
