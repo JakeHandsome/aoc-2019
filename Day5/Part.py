@@ -34,8 +34,6 @@ def getSize(opcode):
 f = open("{}{}Input.txt".format(os.path.dirname(os.path.realpath(__file__)),os.path.sep),"r")
 Program = f.read().split(",")
 
-#Program = "3,0,4,0,99".split(",")
-
 for i in range(len(Program)): 
    Program[i] = int(Program[i]) 
 i = 0
